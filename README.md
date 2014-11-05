@@ -1,7 +1,7 @@
 vue-route
 =======
 
-Routing directive for Vue.js, inspired by ng-view.
+Routing directive for Vue.js **(v0.11)**, inspired by ng-view.
 
 Allows you to declare your routes on the $root Vue object:
 
