@@ -59,8 +59,7 @@ module.exports = function(Vue, params) {
     Vue.directive('route', {
         isLiteral: true,
 
-        dispatch: false,
-        eventMethod: null,
+        notifier: null,
 
         defaultRoute: '/',
 
@@ -99,7 +98,7 @@ module.exports = function(Vue, params) {
         */
         start: function() {
             page.start();
-            this.vm.$root.$emit('router:started');
+            this.vm.$root[this.notifier]('router:started');
         },
 
         /*
@@ -158,7 +157,7 @@ module.exports = function(Vue, params) {
                 }
             }
 
-            this.vm.$root.$emit.apply(this.vm.$root,
+            this.vm.$root[this.notifier].apply(this.vm.$root,
                 concat.call([], 'router:' + when + 'Update', params)
             );
         },
@@ -254,6 +253,9 @@ module.exports = function(Vue, params) {
             if(!this.routes) {
                 _.warn('v-route needs the $root to be passed a "routes" option hash.');
             }
+
+            var broadcast = !!this.routes.broadcast;
+            this.notifier = broadcast ? '$broadcast' : '$emit';
 
             // Register all the routes
             for(var route in this.routes) {

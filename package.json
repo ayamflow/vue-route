@@ -1,6 +1,6 @@
 {
   "name": "vue-route",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Routing directive for Vue.js, inspired by ng-view.",
   "main": "index.js",
   "scripts": {

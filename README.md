@@ -17,7 +17,8 @@ var root = new Vue({
         '/work/:work': {
             componentId: 'fg-work',
             afterUpdate: 'updateHeader'
-        }
+        },
+        broadcast: false
     },
 })
 
@@ -60,7 +61,8 @@ Vue.use(route); // BOOM
     * *afterUpdate*: a callback (mehod or name of method on the vm) to call after effectively having changed to this route
     * *isDefault*: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
-* The router will `$emit` on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.
+* The router will emit events on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.
+* You can pass an additional parameter to the `routes` object: broadcast. If set to true, the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. Defaults to `false`.
 
 ## Todo
 * unit tests
