@@ -4,7 +4,9 @@ var page = require('page'),
     Vue = require('vue'),
     _ = Vue.util,
     verbose = false,
-    hasOwnProp = Object.prototype.hasOwnProperty;
+    hasOwnProp = Object.prototype.hasOwnProperty,
+    toString = Object.prototype.toString,
+    concat = Array.prototype.concat;
 
 /*
   NON-REQUIREABLE VUE INTERNALS
@@ -57,11 +59,19 @@ module.exports = function(Vue, params) {
     Vue.directive('route', {
         isLiteral: true,
 
+        dispatch: false,
+        eventMethod: null,
+
         defaultRoute: '/',
 
         routes: {},
 
-        params: {},
+        location: {
+            regexp: null,
+            path: null,
+            componentId: null,
+            params: null
+        },
 
         /*
         ROUTING API
@@ -75,19 +85,9 @@ module.exports = function(Vue, params) {
         addRoute: function(path, options) {
             if(verbose) console.warn('addRoute', path, options);
 
-            // pre-route callback
-            if(options.beforeRoute) {
-                page(path, options.beforeRoute);
-            }
-
             page(path, _.bind(function(context, next) {
                 this.onRoute(path, context, next);
             }, this));
-
-            // post-route callback
-            if(options.afterRoute) {
-                page(path, options.afterRoute);
-            }
 
             if(options.isDefault) {
                 this.defaultRoute = path;
@@ -109,22 +109,31 @@ module.exports = function(Vue, params) {
         onRoute: function(path, context, next) {
             if(verbose) console.debug('[router] onRoute', path, context);
 
-            // call before then next
+            /*
+                Get new route, componentId and update location context
+             */
+            var route = this.routes[path],
+                componentId = route.componentId,
+                oldLocation = {};
 
-            var componentId = this.routes[path].componentId;
-            this.params = context.params;
+            _.extend(oldLocation, this.location);
+            this.location.regexp = path;
+            this.location.path = context.path;
+            this.location.componentId = componentId;
+            this.location.params = context.params;
 
-            // call next
+            /*
+                before applying the route, emit the event + execute custom callback
+             */
+            this.callRouteHook('before', route.beforeUpdate, [this.location, oldLocation]);
 
-            // call after
-
-            /*this.context.params = context.params;
-            this.context.componentId = this.getCurrentRouteId(context.path);
-            this.context.path = context.path;*/
-
-            this.vm.$root.$emit('router:updated', context.path);
-
+            // Update the current component
             this.update(componentId);
+
+            /*
+                after applying the route, emit the event + execute custom callback
+             */
+            this.callRouteHook('after', route.afterUpdate, [this.location, oldLocation]);
         },
 
         /*
@@ -137,6 +146,21 @@ module.exports = function(Vue, params) {
                 // history.replaceState({}, '', '/' + this.defaultRoute);
                 page(this.defaultRoute);
             }.bind(this));
+        },
+
+        callRouteHook: function(when, method, params) {
+            if(method) {
+                if(toString.call(method) == '[object String]') {
+                    this.vm[when + 'Update'].apply(this.vm, params);
+                }
+                else {
+                    this.vm[method].apply(params);
+                }
+            }
+
+            this.vm.$root.$emit.apply(this.vm.$root,
+                concat.call([], 'router:' + when + 'Update', params)
+            );
         },
 
         /*
@@ -161,7 +185,7 @@ module.exports = function(Vue, params) {
 
         build: function () {
             var vm = this.vm,
-                routeParams = this.params;
+                routeParams = this.location.params;
 
             if (this.Ctor && !this.childVM) {
                 this.childVM = vm.$addChild({
@@ -228,7 +252,7 @@ module.exports = function(Vue, params) {
             // get the routes options
             this.routes = this.vm.$root.$options.routes;
             if(!this.routes) {
-                _.warn('v-route needs the $root to be passed a "routes" option.');
+                _.warn('v-route needs the $root to be passed a "routes" option hash.');
             }
 
             // Register all the routes
@@ -247,8 +271,7 @@ module.exports = function(Vue, params) {
 
 
         /**
-            * Update callback for the dynamic literal scenario,
-            * e.g. v-component="{{view}}"
+            * Update callback
         */
 
         update: function (value) {
