@@ -150,10 +150,10 @@ module.exports = function(Vue, params) {
         callRouteHook: function(when, method, params) {
             if(method) {
                 if(toString.call(method) == '[object String]') {
-                    this.vm[when + 'Update'].apply(this.vm, params);
+                    this.vm.$root[method].apply(this.vm, params);
                 }
                 else {
-                    this.vm[method].apply(params);
+                    method.apply(params);
                 }
             }
 

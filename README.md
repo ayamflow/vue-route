@@ -65,5 +65,4 @@ Vue.use(route); // BOOM
 * You can pass an additional parameter to the `routes` object: broadcast. If set to true, the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. Defaults to `false`.
 
 ## Todo
-* unit tests
 * transition timing (out then in, in then out, ...)
