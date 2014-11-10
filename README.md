@@ -2,9 +2,9 @@ vue-route
 =======
 
 Routing directive for Vue.js **(v0.11)**, inspired by ng-view.
+`v-transition` are supported, as well as keep-alive.
 
 Allows you to declare your routes on the $root Vue object:
-`v-transition` are supported, as well as keep-alive.
 
 ```
 var root = new Vue({
@@ -65,6 +65,12 @@ Vue.use(route); // BOOM
 * The router will emit events on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.
 * You can pass an additional parameter to the `routes` object: broadcast. If set to true, the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. Defaults to `false`.
 
+## Location context
+When the router emits an event, 2 parameters are passed: `location` and `oldLocation`. Like in Angular, it is an object containing some useful properties:
+* regexp: the route regexp, such as `/items/:itemId`
+* path: the current path, such as `/items/razor/`
+* params: a hash of the params from the route, here `{item: 'razor'}`
+* componentId: the componentId associated to the current route
+
 ## Todo
 * transition timing (out then in, in then out, ...)
-* test with v-transition API
