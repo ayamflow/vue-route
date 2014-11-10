@@ -4,6 +4,7 @@ vue-route
 Routing directive for Vue.js **(v0.11)**, inspired by ng-view.
 
 Allows you to declare your routes on the $root Vue object:
+`v-transition` are supported, as well as keep-alive.
 
 ```
 var root = new Vue({
