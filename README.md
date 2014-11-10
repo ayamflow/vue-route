@@ -66,3 +66,4 @@ Vue.use(route); // BOOM
 
 ## Todo
 * transition timing (out then in, in then out, ...)
+* test with v-transition API

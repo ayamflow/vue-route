@@ -1,10 +1,10 @@
 {
   "name": "vue-route",
-  "version": "1.0.2",
+  "version": "1.1.2",
   "repository": "ayamflow/vue-route",
   "description": "Routing directive for Vue.js, inspired by ng-view.",
-  "main": "index.js",
-  "scripts": ["index.js"],
+  "main": "src/index.js",
+  "scripts": ["src/index.js", "src/route-api.js", "src/component-api.js", "src/directive-api.js", "src/utils.js"],
   "scripts": {
     "test": "npm test"
   },

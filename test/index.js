@@ -3,7 +3,7 @@
 var test = require('tape'),
     Vue = require('vue'),
     page = require('page'),
-    route = require('../index.js');
+    route = require('../src/index.js');
 
 var has = Object.prototype.hasOwnProperty;
 
