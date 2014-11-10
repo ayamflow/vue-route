@@ -33,8 +33,7 @@ with minimal markup:
 </body>
 
 ```
-It's heavily based on the `v-component` directive by @yyx990803 (on the [vuejs repo](https://github.com/yyx990803/vue/blob/0.11.0-rc3/src/directives/component.js)) so big up to him! *`keep-alive` is not implemented.*
-
+It's heavily based on the `v-component` directive by @yyx990803 (on the [vuejs repo](https://github.com/yyx990803/vue/blob/0.11.0-rc3/src/directives/component.js)) so big up to him!
 ## Get started
 
 **1.** Install with npm/component(1): `npm i vue-route --save` or `component install ayamflow/vue-route`.
@@ -63,7 +62,9 @@ Vue.use(route); // BOOM
     * *isDefault*: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
 * The router will emit events on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.
-* You can pass an additional parameter to the `routes` object: broadcast. If set to true, the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. Defaults to `false`.
+* You can pass a `broadcast` boolean. If set to true, the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. If false, it uses `$emit`. Defaults to `false`.
+* You can pass a `debug` boolean to activate logging from the directive.
+* `keep-alive` works the same way than with `v-component`.
 
 ## Location context
 When the router emits an event, 2 parameters are passed: `location` and `oldLocation`. Like in Angular, it is an object containing some useful properties:

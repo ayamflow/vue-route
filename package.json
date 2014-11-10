@@ -4,7 +4,7 @@
   "description": "Routing directive for Vue.js, inspired by ng-view.",
   "main": "src/index.js",
   "scripts": {
-    "test": "beefy test/index.js:test/tests.js --debug=false --index=test/index.html"
+    "test": "beefy test/index.js:test/tests.js --debug=false --index=test/index.html && open http://127.0.0.1:9966"
   },
   "repository": {
     "type": "git",
