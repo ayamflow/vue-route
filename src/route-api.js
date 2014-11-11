@@ -18,7 +18,9 @@ module.exports = function(Vue, page, utils) {
             if(this.debug) _.log('[v-route] addRoute', path, options);
 
             page(path, _.bind(function(context, next) {
-                this.onRoute(path, context, next);
+                Vue.nextTick(function() {
+                    this.onRoute(path, context, next);
+                }, this);
             }, this));
 
             if(options.isDefault) {
@@ -60,15 +62,13 @@ module.exports = function(Vue, page, utils) {
              */
             this.callRouteHook('before', route.beforeUpdate, [this.location, oldLocation]);
 
-            Vue.nextTick(function() {
-                // Update the current component
-                this.update(componentId, _.bind(function() {
-                    /*
-                        after applying the route, emit the event + execute custom callback
-                     */
-                    this.callRouteHook('after', route.afterUpdate, [this.location, oldLocation]);
-                }, this));
-            }, this);
+            // Update the current component
+            this.update(componentId);
+
+            /*
+                after applying the route, emit the event + execute custom callback
+             */
+            this.callRouteHook('after', route.afterUpdate, [this.location, oldLocation]);
         },
 
         /*

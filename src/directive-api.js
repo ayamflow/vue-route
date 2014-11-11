@@ -53,11 +53,11 @@ module.exports = function(Vue, page, utils) {
             this.start();
         },
 
-        update: function (value, cb) {
+        update: function (value) {
             this.unbuild(true);
             if(value) {
                 this.resolveCtor(value);
-                this.build(cb);
+                this.build();
             }
         },
 
