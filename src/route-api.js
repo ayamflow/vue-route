@@ -60,13 +60,15 @@ module.exports = function(Vue, page, utils) {
              */
             this.callRouteHook('before', route.beforeUpdate, [this.location, oldLocation]);
 
-            // Update the current component
-            this.update(componentId);
-
-            /*
-                after applying the route, emit the event + execute custom callback
-             */
-            this.callRouteHook('after', route.afterUpdate, [this.location, oldLocation]);
+            Vue.nextTick(function() {
+                // Update the current component
+                this.update(componentId, _.bind(function() {
+                    /*
+                        after applying the route, emit the event + execute custom callback
+                     */
+                    this.callRouteHook('after', route.afterUpdate, [this.location, oldLocation]);
+                }, this));
+            }, this);
         },
 
         /*
