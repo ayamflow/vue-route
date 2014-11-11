@@ -25,7 +25,7 @@ module.exports = function(Vue) {
             _.assertAsset(this.Ctor, 'component', id);
         },
 
-        build: function () {
+        build: function (cb) {
             if (this.keepAlive) {
                 var cached = this.cache[this.ctorId];
                 if (cached) {
@@ -54,7 +54,7 @@ module.exports = function(Vue) {
                 if (this.keepAlive) {
                     this.cache[this.ctorId] = this.childVM;
                 }
-                this.childVM.$before(this.ref);
+                this.childVM.$before(this.ref, cb);
             }
         },
 
