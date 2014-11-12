@@ -4,7 +4,7 @@
   "description": "Routing directive for Vue.js, inspired by ng-view.",
   "main": "src/index.js",
   "scripts": {
-    "test": "beefy test/index.js:test/tests.js --debug=false --index=test/index.html && open http://127.0.0.1:9966"
+    "test": "browserify test/index.js | testling"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,22 @@
   },
   "devDependencies": {
     "tape": "~3.0.2",
-    "vue": "~0.11.0"
+    "vue": "~0.11.0",
+    "function-bind": "~1.0.2"
   },
+  "testling": {
+      "files": "test/index.js",
+      "browsers": [
+        "ie/9..latest",
+        "chrome/22..latest",
+        "firefox/16..latest",
+        "safari/latest",
+        "opera/11.0..latest",
+        "iphone/6",
+        "ipad/6",
+        "android-browser/latest"
+      ]
+    },
   "dependencies": {
     "page": "~1.3.7"
   }

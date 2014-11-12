@@ -7,6 +7,19 @@ var test = require('tape'),
 
 var has = Object.prototype.hasOwnProperty;
 
+// Insert pushtate markup
+var tempDiv = document.createElement('div');
+tempDiv.innerHTML = '<meta name="fragment" content="!" /><base href="/"/>';
+var $head = document.getElementsByTagName('head')[0];
+$head.appendChild(tempDiv.firstChild);
+$head.appendChild(tempDiv.firstChild);
+// Insert v-route directive
+tempDiv.innerHTML = '<div v-route></div>';
+document.body.appendChild(tempDiv.firstChild);
+
+// Phantomjs fix
+Function.prototype.bind = require('function-bind');
+
 /*
     Test setup
  */
