@@ -17,11 +17,14 @@ module.exports = function(Vue, page, utils) {
         addRoute: function(path, options) {
             if(this.debug) _.log('[v-route] addRoute', path, options);
 
-            page(path, _.bind(function(context, next) {
+            var routeFn = function(context, next) {
                 Vue.nextTick(function() {
                     this.onRoute(path, context, next);
                 }, this);
-            }, this));
+            };
+            routeFn.displayName = 'routing ' + path; // Add a relevant stack trace
+
+            page(path, _.bind(routeFn, this));
 
             if(options.isDefault) {
                 this.defaultRoute = path;

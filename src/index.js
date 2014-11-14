@@ -21,7 +21,7 @@ module.exports = function(Vue) {
         // Reference to $root.$options.routes
         routes: {},
 
-        // Location context
+        // Location context, init (event with null) to avoid mutating it later (fast object)
         location: {
             regexp: null,
             path: null,
