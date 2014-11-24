@@ -20,6 +20,7 @@ module.exports = function(Vue) {
         },
 
         resolveCtor: function(id) {
+            if(!id.length) return; // prevent the null id warning
             this.ctorId = id;
             this.Ctor = this.vm.$options.components[id];
             _.assertAsset(this.Ctor, 'component', id);
