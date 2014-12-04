@@ -2,7 +2,7 @@ vue-route
 =======
 
 Routing directive for Vue.js **(v0.11)**, inspired by ng-view.
-`v-transition` are supported, as well as keep-alive.
+Based on `v-component` thus benefits from `v-transition`, `keep-alive`, `wait-for`, `transition-mode`.
 
 Allows you to declare your routes on the $root Vue object:
 
@@ -19,7 +19,9 @@ var root = new Vue({
             componentId: 'fg-work',
             afterUpdate: 'updateHeader'
         },
-        broadcast: false
+        options: {
+            hashbang: true
+        }
     },
 })
 
@@ -33,7 +35,9 @@ with minimal markup:
 </body>
 
 ```
-It's heavily based on the `v-component` directive by @yyx990803 (on the [vuejs repo](https://github.com/yyx990803/vue/blob/0.11.0-rc3/src/directives/component.js)) so big up to him!
+
+`vue-route` extends the `v-component` directive by @yyx990803 (on the [vuejs repo](https://github.com/yyx990803/vue/tree/master/src/directives/component.js)). Buy him a coffee if you can.
+
 ## Get started
 
 **1.** Install with npm/component(1): `npm i vue-route --save` or `component install ayamflow/vue-route`.
@@ -61,10 +65,15 @@ Vue.use(route); // BOOM
     * *afterUpdate*: a callback (mehod or name of method on the vm) to call after effectively having changed to this route
     * *isDefault*: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
+Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [trigger] is a boolean (defaults to true) that will `pushState` if true, `replaceState` otherwise.
+
 * The router will emit events on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.
-* You can pass a `broadcast` boolean. If set to true, the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. If false, it uses `$emit`. Defaults to `false`.
-* You can pass a `debug` boolean to activate logging from the directive.
-* `keep-alive` works the same way than with `v-component`.
+* You can pass a `options` hash to pass configuration to the router:
+    * `hashbang` boolean (defaults to false) to use '#!' urls
+    * `click` boolean (defaults to true) to automatically bind all click to the router. Not that if `false`, you will need to explicitly call `Vue.navigate` method)
+    * `base` string (defaults to '/') to specify the base path
+    * `broadcast` boolean (defaults to false) if true the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. If false, it uses `$emit`.
+    * `debug` boolean (defaults to false) to activate logging from the directive.
 
 ## Location context
 When the router emits an event, 2 parameters are passed: `location` and `oldLocation`. Like in Angular, it is an object containing some useful properties:
@@ -72,6 +81,3 @@ When the router emits an event, 2 parameters are passed: `location` and `oldLoca
 * path: the current path, such as `/items/razor/`
 * params: a hash of the params from the route, here `{item: 'razor'}`
 * componentId: the componentId associated to the current route
-
-## Todo
-* transition timing (out then in, in then out, ...)
