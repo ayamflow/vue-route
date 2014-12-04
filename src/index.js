@@ -4,13 +4,12 @@ var utils = require('./utils'),
     page = require('page');
 
 module.exports = function(Vue) {
-    var component = require('./component-api')(Vue, page, utils),
-        directive = require('./directive-api')(Vue, page, utils),
-        route = require('./route-api')(Vue, page, utils),
-        _ = Vue.util;
+  var component = Vue.directive('component'),
+      overrides = require('./overrides')(Vue),
+      routing = require('./routing')(Vue, page, utils),
+      _ = Vue.util;
 
-    var routeDefinition = {
-
+    var routeDefinition = _.extend({
         isLiteral: true,
 
         // Vue event method, $emit or $broadcast
@@ -21,6 +20,13 @@ module.exports = function(Vue) {
         // Reference to $root.$options.routes
         routes: {},
 
+        // Options to be passed to the routing library
+        options: {
+          base: '/',
+          hashbang: false,
+          click: true
+        },
+
         // Location context, init (event with null) to avoid mutating it later (fast object)
         location: {
             regexp: null,
@@ -28,11 +34,13 @@ module.exports = function(Vue) {
             componentId: null,
             params: null
         }
-    };
+    }, component);
 
-    _.extend(routeDefinition, component); // Add methods from custom component directive
-    _.extend(routeDefinition, directive); // Add directive lifecycle methods
-    _.extend(routeDefinition, route); // Add routing methods
+    // Extend the routing-related methods
+    _.extend(routeDefinition, routing);
+
+    // override some of components methods
+    _.extend(routeDefinition, overrides);
 
     Vue.directive('route', routeDefinition);
 };
