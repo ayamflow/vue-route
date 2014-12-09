@@ -66,7 +66,7 @@ Vue.use(route); // BOOM
     * *componentId*: the Vue.component id for the associated template/VM.
     * *beforeUpdate*: a callback (method or name of method on the vm) to call before effectively changing to this route
     * *afterUpdate*: a callback (method or name of method on the vm) to call after effectively having changed to this route
-    * *data*: an object that will be passed back to the view. This is useful when we need to use the same component for different urls but using different data.
+    * *data*: an object that will be **merged** with the view's `$data`. This is useful when we need to use the same component for different urls but using different data.
     * *isDefault*: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
 Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [trigger] is a boolean (defaults to true) that will `pushState` if true, `replaceState` otherwise.
