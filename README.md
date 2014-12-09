@@ -87,3 +87,9 @@ When the router emits an event, 2 parameters are passed: `location` and `oldLoca
 * path: the current path, such as `/items/razor/`
 * params: a hash of the params from the route, here `{item: 'razor'}`
 * componentId: the componentId associated to the current route
+
+## Contributing
+
+* fork & PR on **[dev](https://github.com/ayamflow/vue-route/tree/dev)** branch.
+* if possible, add tests to cover the changes.
+* code style: 4 tabs, semicolons. Check the code if in doubt.
