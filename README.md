@@ -17,7 +17,10 @@ var root = new Vue({
         },
         '/work/:work': {
             componentId: 'fg-work',
-            afterUpdate: 'updateHeader'
+            afterUpdate: 'updateHeader',
+            data: {
+                defaultColor: '#3453DD'
+            }
         },
         options: {
             hashbang: true
@@ -62,12 +65,14 @@ Vue.use(route); // BOOM
 * routes definition: when you pass your routes to the $root, you can pass several properties:
     * *componentId*: the Vue.component id for the associated template/VM.
     * *beforeUpdate*: a callback (method or name of method on the vm) to call before effectively changing to this route
-    * *afterUpdate*: a callback (mehod or name of method on the vm) to call after effectively having changed to this route
+    * *afterUpdate*: a callback (method or name of method on the vm) to call after effectively having changed to this route
+    * *data*: an object that will be passed back to the view. This is useful when we need to use the same component for different urls but using different data.
     * *isDefault*: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
 Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [trigger] is a boolean (defaults to true) that will `pushState` if true, `replaceState` otherwise.
 
 * The router will emit events on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.
+
 * You can pass a `options` hash to pass configuration to the router:
     * `hashbang` boolean (defaults to false) to use '#!' urls
     * `click` boolean (defaults to true) to automatically bind all click to the router. Not that if `false`, you will need to explicitly call `Vue.navigate` method)
@@ -76,6 +81,7 @@ Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [tr
     * `debug` boolean (defaults to false) to activate logging from the directive.
 
 ## Location context
+
 When the router emits an event, 2 parameters are passed: `location` and `oldLocation`. Like in Angular, it is an object containing some useful properties:
 * regexp: the route regexp, such as `/items/:itemId`
 * path: the current path, such as `/items/razor/`
