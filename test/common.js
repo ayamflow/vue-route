@@ -56,6 +56,12 @@ var beforeCalled = false,
         '/page3/:foo': {
             componentId: 'page-3'
         },
+        '/with-data': {
+            componentId: 'page-1',
+            data: {
+              bar: 'baz'
+            }
+        },
         options: {
           hashbang: true,
           base: '/lol',
@@ -157,5 +163,15 @@ test('onDefaultRoute', function(assert) {
 
     Vue.nextTick(function() {
         assert.equal(location.hash.replace('#!', ''), '/page1', 'Should get back to the default route.');
+    });
+});
+
+test('data', function(assert) {
+    assert.plan(1);
+    root.$off();
+
+    Vue.navigate('/with-data');
+    Vue.nextTick(function() {
+      assert.equal(root._children[0].bar, 'baz', 'Should have a data');
     });
 });
