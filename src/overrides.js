@@ -6,10 +6,11 @@
 
 module.exports = function(Vue) {
     var component = Vue.directive('component'),
+        _ = Vue.util,
         parsers = Vue.parsers;
 
     return {
-        bind: function () {
+        bind: function() {
             // Force dynamic directive
             this._isDynamicLiteral = true;
             component.bind.call(this);
@@ -32,17 +33,19 @@ module.exports = function(Vue) {
               return cached;
             }
           }
-          var vm = this.vm,
-              routeParams = this.location.params;
+
+          var vm = this.vm;
           var el = parsers.template.clone(this.el);
+          var data = _.extend(this.routes[this.location.regexp].data || {}, {
+            $routeParams: this.location.params
+          });
+
           if (this.Ctor) {
             var child = vm.$addChild({
               el: el,
               _asComponent: true,
               data: function() {
-                return {
-                  $routeParams: routeParams
-                };
+                return data;
               }
             }, this.Ctor);
             if (this.keepAlive) {
