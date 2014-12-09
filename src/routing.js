@@ -30,7 +30,7 @@ module.exports = function(Vue, page, utils) {
           /*
               Options for v-route & page (base, hashbang, debug...)
            */
-          this.options = this.routes.options;
+          this.options = this.routes.options || {};
 
           /*
             If options.broadcast, uses $broadcast for routing events, else uses $emit
