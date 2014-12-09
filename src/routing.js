@@ -144,11 +144,11 @@ module.exports = function(Vue, page, utils) {
             if(method) {
                 if(utils.toString.call(method) == '[object String]') {
                     if(this.vm.$root[method]) {
-                        this.vm.$root[method].apply(this.vm, params);
+                        this.vm.$root[method].apply(this.vm.$root, params);
                     }
                 }
                 else {
-                    method.apply(params);
+                    method.apply(this.vm.$root, params);
                 }
             }
 
