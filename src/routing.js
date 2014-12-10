@@ -68,15 +68,26 @@ module.exports = function(Vue, page, utils) {
             if(this.options.debug) _.log('[v-route] addRoute', path, options);
 
             var routeFn = function(context, next) {
-                Vue.nextTick(function() {
+                // Vue.nextTick(function() {
                     this.onRoute(path, context, next);
-                }, this);
+                // }, this);
             };
 
             // Add a relevant stack trace
             routeFn.displayName = 'routing ' + path;
 
-            page(path, _.bind(routeFn, this));
+            // Middleware prop
+            /*
+              page(path, onRoute, beforeUpdate, updateRoute, afterUpdate);
+              - onRoute -> updateLocation field
+              - beforeUpdate -> emit event, call callbacks, if no callbacks -> next
+              - updateRoute -> effectively applies the route, next
+              - afterUpdate -> emit event, call callbacks
+            */
+
+            // page(path, _.bind(routeFn, this));
+
+            page(path, _.bind(routeFn, this), _.bind(this.beforeUpdate, this), _.bind(this.updateRoute, this));
 
             if(options.isDefault) {
                 this.defaultRoute = path;
@@ -103,27 +114,36 @@ module.exports = function(Vue, page, utils) {
                 Get new route, componentId and update location context
              */
             var route = this.routes[path],
-                componentId = route.componentId,
-                oldLocation = _.extend({}, this.location);
+                componentId = route.componentId;
+
+            this.oldLocation.regexp = this.location.regexp;
+            this.oldLocation.path = this.location.path;
+            this.oldLocation.componentId = this.location.componentId;
+            this.oldLocation.params = this.location.params;
 
             this.location.regexp = path;
             this.location.path = context.path;
             this.location.componentId = componentId;
             this.location.params = context.params;
 
-            /*
-                before applying the route, emit the event + execute custom callback
-             */
-            this.callRouteHook('before', route.beforeUpdate, [this.location, oldLocation]);
-            /*
-                Update the current component
-             */
-            this.update(componentId);
+            next();
+        },
 
-            /*
-                after applying the route, emit the event + execute custom callback
-             */
-            this.callRouteHook('after', route.afterUpdate, [this.location, oldLocation]);
+        beforeUpdate: function(context, next) {
+            this.callRouteHook('before', next);
+        },
+
+        updateRoute: function() {
+          /*
+              Update the current component
+           */
+          var componentId = this.routes[this.location.regexp].componentId;
+          this.update(componentId);
+
+          /*
+              after applying the route, emit the event + execute custom callback
+           */
+          this.callRouteHook('after');
         },
 
         /*
@@ -135,25 +155,53 @@ module.exports = function(Vue, page, utils) {
 
             Vue.nextTick(function() {
                 page(this.defaultRoute);
-            }.bind(this));
+            }, this);
         },
 
-        callRouteHook: function(when, method, params) {
-            if(this.options.debug) _.log('[v-route] callRouteHook', when, method, params);
+        callRouteHook: function(when, next) {
+            if(this.options.debug) _.log('[v-route] callRouteHook', when, next);
 
-            if(method) {
-                if(utils.toString.call(method) == '[object String]') {
-                    if(this.vm.$root[method]) {
-                        this.vm.$root[method].apply(this.vm.$root, params);
-                    }
+            var route = this.routes[this.location.regexp],
+                callback = route[when + 'Update'],
+                $root = this.vm.$root,
+                locations = [this.location, this.oldLocation],
+                middleware;
+
+            if(callback) {
+              if(utils.isFunction(callback)) {
+                  middleware = callback;
+              }
+              else if(utils.isString(callback)) {
+                if($root[callback]) {
+                  middleware = $root[callback];
                 }
-                else {
-                    method.apply(this.vm.$root, params);
-                }
+              }
             }
 
-            this.vm.$root[this.notifier].apply(this.vm.$root,
-                utils.concat.call([], 'router:' + when + 'Update', params)
+            _.nextTick(function() {
+              this.callRouteEvents(when, locations);
+            }, this);
+
+            /*
+              If a middleware is declared, we call it and wait for the call to `next`
+             */
+            if(middleware) {
+              middleware.apply($root, utils.concat.call(locations, next));
+            }
+
+            /*
+              If no middleware is declared, we call `next` to continue the routing
+             */
+            else if(next) {
+              next();
+            }
+        },
+
+        callRouteEvents: function(when, locations) {
+            var $root = this.vm.$root;
+
+            $root[this.notifier].apply($root,
+                utils.concat.call([], 'router:' + when + 'Update', locations)
             );
         }
     };

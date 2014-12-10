@@ -69,6 +69,8 @@ Vue.use(route); // BOOM
     * *data*: an object that will be **merged** with the view's `$data`. This is useful when we need to use the same component for different urls but using different data.
     * *isDefault*: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
+beforeUpdate is a middleware, this means you need to call the `next` function provided as the third argument, to continue routing. This allows to prevent a route based on some condition.
+
 Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [trigger] is a boolean (defaults to true) that will `pushState` if true, `replaceState` otherwise.
 
 * The router will emit events on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.

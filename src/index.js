@@ -33,6 +33,13 @@ module.exports = function(Vue) {
             path: null,
             componentId: null,
             params: null
+        },
+
+        oldLocation: {
+            regexp: null,
+            path: null,
+            componentId: null,
+            params: null
         }
     }, component);
 
