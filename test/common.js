@@ -70,8 +70,9 @@ var beforeCalled = false,
         }
     };
 
-function before() {
+function before(location, oldLocation, next) {
     beforeCalled = true;
+    next();
 }
 
 var root = window.root = new Vue({
