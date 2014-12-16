@@ -73,7 +73,7 @@ beforeUpdate is a middleware, this means you need to call the `next` function pr
 
 Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [trigger] is a boolean (defaults to true) that will `pushState` if true, `replaceState` otherwise.
 
-* The router will emit events on your $root VM: `routing:started`, `routing:beforeUpdate`, `routing:afterUpdate`.
+* The router will emit events on your $root VM: `router:started`, `router:beforeUpdate`, `router:afterUpdate`.
 
 * You can pass a `options` hash to pass configuration to the router:
     * `hashbang` boolean (defaults to false) to use '#!' urls
