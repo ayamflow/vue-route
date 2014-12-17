@@ -4,9 +4,12 @@
   "repository": "ayamflow/vue-route",
   "description": "Routing directive for Vue.js, inspired by ng-view.",
   "main": "src/index.js",
-  "scripts": {
-    "test": "npm test"
-  },
+  "scripts": [
+    "src/index.js",
+    "src/overrides.js",
+    "src/routing.js",
+    "src/utils.js"
+  ],
   "keywords": [
     "vue",
     "route",
@@ -23,7 +26,9 @@
     "visionmedia/page.js": "^1.5.0"
   },
   "development": {
-    "yyx990803/vue": "^0.11.3",
-    "substack/tape": "^3.0.2"
+    "dependencies": {
+      "yyx990803/vue": "^0.11.3",
+      "substack/tape": "^3.0.2"
+    }
   }
 }
