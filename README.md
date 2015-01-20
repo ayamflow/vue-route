@@ -76,11 +76,11 @@ Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [tr
 * The router will emit events on your `$root` VM: `router:started`, `router:beforeUpdate`, `router:afterUpdate`.
 
 * You can pass a `options` hash to pass configuration to the router:
-    * `hashbang` boolean (defaults to false) to use `#!` urls. Note that your links shouldn't include hashbangs, the router handles this.
-    * `click` boolean (defaults to true) to automatically bind all click to the router. Not that if `false`, you will need to explicitly call `Vue.navigate` method)
-    * `base` string (defaults to '/') to specify the base path
-    * `broadcast` boolean (defaults to false) if true the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. If false, it uses `$emit`.
-    * `debug` boolean (defaults to false) to activate logging from the directive.
+    * `hashbang`: boolean (defaults to false) to use `#!` urls. Note that your links shouldn't include hashbangs, the router handles this.
+    * `click`: boolean (defaults to true) to automatically bind all click to the router. Not that if `false`, you will need to explicitly call `Vue.navigate` method).
+    * `base`: string (defaults to '/') to specify the base path.
+    * `broadcast`: boolean (defaults to false) if true the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. If false, it uses `$emit`.
+    * `debug`: boolean (defaults to false) to activate logging from the directive.
 
 ## Location context
 
