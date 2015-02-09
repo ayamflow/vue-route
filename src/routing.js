@@ -33,6 +33,13 @@ module.exports = function(Vue, page, utils) {
           this.options = this.routes.options || {};
 
           /*
+            Use page.base to set the URL base
+           */
+          if(this.options.base) {
+            page.base(this.options.base);
+          }
+
+          /*
             If options.broadcast, uses $broadcast for routing events, else uses $emit
            */
           this.notifier = !!this.options.broadcast ? '$broadcast' : '$emit';
