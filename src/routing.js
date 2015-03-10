@@ -123,15 +123,13 @@ module.exports = function(Vue, page, utils) {
             var route = this.routes[path],
                 componentId = route.componentId;
 
-            this.oldLocation.regexp = this.location.regexp;
-            this.oldLocation.path = this.location.path;
-            this.oldLocation.componentId = this.location.componentId;
-            this.oldLocation.params = this.location.params;
-
-            this.location.regexp = path;
-            this.location.path = context.path;
-            this.location.componentId = componentId;
-            this.location.params = context.params;
+            this.oldLocation = _.extend({}, this.location);
+            this.location = {
+                regexp: path,
+                path: context.path,
+                componentId: componentId,
+                params: context.params
+            };
 
             next();
         },
