@@ -6,3 +6,4 @@ if(!Function.prototype.bind) {
 }
 
 require('./common.js');
+// require('./keep-alive-data.js');

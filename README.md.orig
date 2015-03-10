@@ -15,8 +15,8 @@ var root = new Vue({
             componentId: 'fg-home',
             isDefault: true
         },
-        '/items/:item': {
-            componentId: 'fg-item',
+        '/work/:work': {
+            componentId: 'fg-work',
             afterUpdate: 'updateHeader',
             data: {
                 defaultColor: '#3453DD'
@@ -76,26 +76,27 @@ Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [tr
 * The router will emit events on your `$root` VM: `router:started`, `router:beforeUpdate`, `router:afterUpdate`.
 
 * You can pass a `options` hash to pass configuration to the router:
+<<<<<<< HEAD
     * `hashbang`: boolean (defaults to false) to use `#!` urls. Note that your links shouldn't include hashbangs, the router handles this.
     * `click`: boolean (defaults to true) to automatically bind all click to the router. Not that if `false`, you will need to explicitly call `Vue.navigate` method).
     * `base`: string (defaults to '/') to specify the base path.
     * `broadcast`: boolean (defaults to false) if true the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. If false, it uses `$emit`.
     * `debug`: boolean (defaults to false) to activate logging from the directive.
+=======
+    * `hashbang` boolean (defaults to false) to use `#!` urls. Note that your links shouldn't include hashbangs, the router handles this.
+    * `click` boolean (defaults to true) to automatically bind all click to the router. Not that if `false`, you will need to explicitly call `Vue.navigate` method)
+    * `base` string (defaults to '/') to specify the base path
+    * `broadcast` boolean (defaults to false) if true the events will be emitted using the $root `$broadcast` method, so all child VMs will receive the event until a handler `return false;`. If false, it uses `$emit`.
+    * `debug` boolean (defaults to false) to activate logging from the directive.
+>>>>>>> Add notice regarding URL and hashbangs as seen in #15.
 
 ## Location context
 
 When the router emits an event, 2 parameters are passed: `location` and `oldLocation`. Like in Angular, it is an object containing some useful properties:
-* `regexp`: the route regexp, such as `/items/:item`.
+* `regexp`: the route regexp, such as `/items/:itemId`.
 * `path`: the current path, such as `/items/razor/`.
 * `params`: a hash of the params from the route, here `{item: 'razor'}`.
 * `componentId`: the componentId associated to the current route.
-
-## Route parameters
-
-Each component used by `v-route` will have its `$data` extended with the `location.params` array (see above). That means that on the route `/items/razor`, `this.$data.$routeParams.item == 'razor'`.
-
-## Compatibility note
-vue-route supports the same browsers as Vue; however to make it properly work on IE9 you need to add the [HTML5-history-API polyfill](https://github.com/devote/HTML5-History-API).
 
 ## Contributing
 

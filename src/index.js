@@ -27,7 +27,7 @@ module.exports = function(Vue) {
           click: true
         },
 
-        // Location context, init (event with null) to avoid mutating it later (fast object)
+        // Location context
         location: {
             regexp: null,
             path: null,
