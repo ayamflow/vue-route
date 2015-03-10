@@ -15,8 +15,8 @@ var root = new Vue({
             componentId: 'fg-home',
             isDefault: true
         },
-        '/work/:work': {
-            componentId: 'fg-work',
+        '/items/:item': {
+            componentId: 'fg-item',
             afterUpdate: 'updateHeader',
             data: {
                 defaultColor: '#3453DD'
@@ -85,10 +85,14 @@ Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [tr
 ## Location context
 
 When the router emits an event, 2 parameters are passed: `location` and `oldLocation`. Like in Angular, it is an object containing some useful properties:
-* `regexp`: the route regexp, such as `/items/:itemId`.
+* `regexp`: the route regexp, such as `/items/:item`.
 * `path`: the current path, such as `/items/razor/`.
 * `params`: a hash of the params from the route, here `{item: 'razor'}`.
 * `componentId`: the componentId associated to the current route.
+
+## Route parameters
+
+Each component used by `v-route` will have its `$data` extended with the `location.params` array (see above). That means that on the route `/items/razor`, `this.$data.$routeParams.item == 'razor'`.
 
 ## Compatibility note
 vue-route supports the same browsers as Vue; however to make it properly work on IE9 you need to add the [HTML5-history-API polyfill](https://github.com/devote/HTML5-History-API).
