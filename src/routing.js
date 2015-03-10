@@ -34,6 +34,7 @@ module.exports = function(Vue, page, utils) {
 
           /*
             Use page.base to set the URL base
+            TODO tests
            */
           if(this.options.base) {
             page.base(this.options.base);
