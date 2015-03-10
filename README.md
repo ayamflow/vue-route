@@ -90,6 +90,9 @@ When the router emits an event, 2 parameters are passed: `location` and `oldLoca
 * `params`: a hash of the params from the route, here `{item: 'razor'}`.
 * `componentId`: the componentId associated to the current route.
 
+## Compatibility note
+vue-route supports the same browsers as Vue; however to make it properly work on IE9 you need to add the [HTML5-history-API polyfill](https://github.com/devote/HTML5-History-API).
+
 ## Contributing
 
 * Fork & PR on **[dev](https://github.com/ayamflow/vue-route/tree/dev)** branch.
