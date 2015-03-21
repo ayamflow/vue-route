@@ -66,7 +66,7 @@ Vue.use(route); // BOOM
     * `componentId`: the Vue.component id for the associated template/VM.
     * `beforeUpdate`: a callback (method or name of method on the vm) to call before effectively changing to this routehtml.
     * `afterUpdate`: a callback (method or name of method on the vm) to call after effectively having changed to this route.
-    * `data`: an object that will be **merged** with the view's `$data`. This is useful when we need to use the same component for different urls but using different data.
+    * `data`: an object (or function returning an object) that will be **merged** with the view's `$data`. This is useful when we need to use the same component for different urls but using different data.
     * `isDefault`: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
 `beforeUpdate` is a middleware, this means you need to call the `next` function provided as the third argument, to continue routing. This allows to prevent a route based on some condition.

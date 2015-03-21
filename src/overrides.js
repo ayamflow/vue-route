@@ -4,6 +4,8 @@
     Overrides for (some of) v-component methods
  */
 
+var utils = require('./utils');
+
 module.exports = function(Vue) {
     var component = Vue.directive('component'),
         _ = Vue.util,
@@ -27,7 +29,8 @@ module.exports = function(Vue) {
           except the routeParams part (no way to override it cleanly :/)
          */
         build: function() {
-            var data = _.extend({}, this.routes[this.location.regexp].data || {});
+            var routeData = this.routes[this.location.regexp].data;
+            var data = _.extend({}, (utils.isFunction(routeData) ? routeData() : routeData) || {});
             data = _.extend(data, {
                 $routeParams: this.location.params
             });
