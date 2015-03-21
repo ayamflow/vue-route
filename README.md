@@ -94,6 +94,9 @@ When the router emits an event, 2 parameters are passed: `location` and `oldLoca
 
 Each component used by `v-route` will have its `$data` extended with the `location.params` array (see above). That means that on the route `/items/razor`, `this.$data.$routeParams.item == 'razor'`.
 
+## Subroutes
+Managing subviews with subroutes like `/route/:firstParam/:secondParam` is userland responsability; you should handle this with a `v-component` or programmatically.
+
 ## Compatibility note
 vue-route supports the same browsers as Vue; however to make it properly work on IE9 you need to add the [HTML5-history-API polyfill](https://github.com/devote/HTML5-History-API).
 
