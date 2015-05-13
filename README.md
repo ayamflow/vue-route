@@ -60,6 +60,14 @@ Vue.use(route); // BOOM
 
 **5.** Profit !
 
+## Transition, keep-alive and other directives
+If you want to add custom transitions between your pages, it's recommended to put them on each page's component template. Putting anything on the `v-route` element itself will only be active if you change this element (for instance with a `v-if` directive).
+Following the example, that would be:
+
+```js
+<div class="Home" v-transition="homeTransition">...</div> // fg-home component
+```
+
 ## Additional infos
 
 * Routes definition: when you pass your routes to the `$root`, you can pass several properties:
