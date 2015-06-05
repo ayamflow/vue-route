@@ -78,6 +78,8 @@ Following the example, that would be:
     * `isDefault`: boolean indicating wether this page should be the default, in case of non-existing URL. Think of it as the `otherwise` from Angular, so basically a 404 or the home page.
 
 `beforeUpdate` is a middleware, this means you need to call the `next` function provided as the third argument, to continue routing. This allows to prevent a route based on some condition.
+For instance, you can `return` before `next` is called to cancel the route; usefull for an authentication page for instance.
+Another instance is to pause the app during loading and calling `next` when everything is loaded, thus resuming the flow.
 
 Vue is augmented with an additional method, `Vue.navigate(path, [trigger])`. [trigger] is a boolean (defaults to true) that will `pushState` if true, `replaceState` otherwise.
 
