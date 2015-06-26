@@ -4,8 +4,8 @@
   "description": "Routing directive for Vue.js, inspired by ng-view.",
   "main": "src/index.js",
   "scripts": {
-    "test": "browserify test/index.js | testling",
-    "test-browser": "beefy test/index.js:test/build.js --debug=false"
+    "test": "./node_modules/.bin/prova ./test/**/*.js -b -l phantom -q",
+    "test-browser": "./node_modules/.bin/prova ./test/**/*.js -b -l chrome"
   },
   "repository": {
     "type": "git",
@@ -24,22 +24,8 @@
     "url": "https://github.com/ayamflow/vue-route/issues"
   },
   "devDependencies": {
-    "function-bind": "^1.0.2",
-    "tape": "~3.0.2",
-    "vue": "~0.11.3"
-  },
-  "testling": {
-    "files": "test/index.js",
-    "browsers": [
-      "ie/9..latest",
-      "chrome/22..latest",
-      "firefox/16..latest",
-      "safari/latest",
-      "opera/11.0..latest",
-      "iphone/6",
-      "ipad/6",
-      "android-browser/latest"
-    ]
+    "prova": "^2.1.2",
+    "vue": "~0.12"
   },
   "dependencies": {
     "page": "^1.5.0"
