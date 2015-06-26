@@ -4,7 +4,7 @@ var utils = require('./utils'),
     page = require('page');
 
 module.exports = function(Vue) {
-  var component = Vue.directive('component'),
+  var component = Vue.directive('_component'),
       overrides = require('./overrides')(Vue),
       routing = require('./routing')(Vue, page, utils),
       _ = Vue.util;
