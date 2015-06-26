@@ -1,6 +1,6 @@
 'use strict';
 
-var test = require('tape'),
+var test = require('prova'),
     Vue = require('vue'),
     page = require('page'),
     route = require('../src/index.js');
@@ -44,7 +44,7 @@ Vue.component('page-2', {
     }
 });
 
-var root = new Vue({
+/*var root = new Vue({
     el: 'body',
     routes: routes
 });
@@ -66,3 +66,4 @@ test('data', function(assert) {
         }, 800);
     }, 800);
 });
+*/

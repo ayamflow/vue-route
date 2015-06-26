@@ -1,8 +1,11 @@
 vue-route
 =======
 
-Routing directive for Vue.js **(v0.11)**, inspired by ng-view.
+Routing directive for Vue.js, inspired by ng-view.
 Based on `v-component` thus benefits from `v-transition`, `keep-alive`, `wait-for`, `transition-mode`.
+
+Versions 1.5.0+ are made for **Vue.js v0.12+.**
+Use older versions for Vue.js v0.11.
 
 Allows you to declare your routes on the `$root` Vue object:
 

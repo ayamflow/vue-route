@@ -4,7 +4,7 @@
     General purpose tests
  */
 
-var test = require('tape'),
+var test = require('prova'),
     Vue = require('vue'),
     page = require('page'),
     route = require('../src/index.js');
@@ -173,6 +173,7 @@ test('data', function(assert) {
 
     Vue.navigate('/with-data');
     Vue.nextTick(function() {
+        console.log(root._children[0].$data);
       assert.equal(root._children[0].bar, 'baz', 'Should have a data');
     });
 });
