@@ -39,7 +39,7 @@ Vue.component('page-1', {
 Vue.component('page-2', {
     template: '<h2 keep-alive class="page2"></h2>',
     attached: function() {
-        console.log('page-2', this.$data.$routeParams.page);
+        // console.log('page-2', this.$data.$routeParams.page);
         // console.log('page-2', routes['/page2/:page'].data, this.$data);
     }
 });
