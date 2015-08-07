@@ -19,11 +19,6 @@ module.exports = function(Vue) {
             this.init();
         },
 
-        resolveCtor: function(id, cb) {
-            if(!id.length) return;
-            component.resolveCtor.call(this, id, cb);
-        },
-
         /*
           This one is copied/pasted from the source
           except the routeParams part (no way to override it cleanly :/)
@@ -41,33 +36,32 @@ module.exports = function(Vue) {
             });
 
             if(this.keepAlive) {
-                var cached = this.cache[this.ctorId];
+                var cached = this.cache[this.componentID];
                 if(cached) {
                     _.extend(cached.$data, compData);
                     return cached;
                 }
             }
 
-            var vm = this.vm;
-            var el = parsers.template.clone(this.el);
-
-            if(this.Ctor) {
-                var child = vm.$addChild({
-                    el: el,
-                    data: function() {
-                        return compData;
-                    },
-                    template: this.template,
-                    // if no inline-template, then the compiled
-                    // linker can be cached for better performance.
-                    _linkerCachable: !this.template,
-                    _asComponent: true,
-                    _host: this._host,
-                    _isRouterView: this._isRouterView
-                }, this.Ctor);
+            if(this.Component) {
+                var parent = this._host || this.vm;
+                var el = parsers.template.clone(this.el);
+                var child = parent.$addChild({
+                  el: el,
+                  data: function() {
+                    return compData;
+                  },
+                  template: this.template,
+                  // if no inline-template, then the compiled
+                  // linker can be cached for better performance.
+                  _linkerCachable: !this.template,
+                  _asComponent: true,
+                  _isRouterView: this._isRouterView,
+                  _context: this.vm
+                }, this.Component);
 
                 if(this.keepAlive) {
-                    this.cache[this.ctorId] = child;
+                    this.cache[this.componentID] = child;
                 }
 
                 return child;
