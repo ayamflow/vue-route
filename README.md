@@ -1,6 +1,8 @@
 vue-route
 =======
 
+## Vue-route is discontinued. Try the official [vue-router](https://github.com/vuejs/vue-router) instead.
+
 Routing directive for Vue.js, inspired by ng-view.
 Based on `v-component` thus benefits from `v-transition`, `keep-alive`, `wait-for`, `transition-mode`.
 
